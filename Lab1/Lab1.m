@@ -126,10 +126,42 @@ I(250:400,200:600,3) = 1;
 I(250:400, 1:100,3) = 1;
 imwrite(I,'flagga.tif')
 
+%% Testing GammaCorrection
 
+ OImage = imread('spillway-dark.tif');
+% 
+ GImage1 = GammaCorrection(OImage, 0.4, 0.1, 0.9);
+% % GImage2 = GammaCorrection(OImage, 0.4, 0.5, 0.9);
+% % GImage3 = GammaCorrection(OImage, 0.4, 0.1, 0.1);
+ max(GImage1(:))
+% % figure(1);
+% % imshow(GImage1)
+% % % figure(2);
+% % % imshow(GImage2)
+% % figure(3);
+% % imshow(GImage3)
+% 
+% OImage2 = imread('aerialview-washedout.tif');
+% 
+% G2Image1 = GammaCorrection(OImage2, 0.4, 0.1, 0.9);
+% G2Image2 = GammaCorrection(OImage2, 0.7, 0.1, 0.9);
+% G2Image3 = GammaCorrection(OImage2, 0.2, 0.3, 0.8);
+% 
+% figure(1)
+% imshow(G2Image1)
+% figure(2)
+% imshow(G2Image2)
+% figure(3)
+% imshow(G2Image3)
 
+Image = imread('IntensityRampGamma25.tif');
+Image2 = imread("IntensityRamp.tif")
 
-
+figure(1)
+imshow(Image2)
+GImage = GammaCorrection(Image, 0.3, 0, 1);
+figure(2)
+imshow(GImage)
 
 
 

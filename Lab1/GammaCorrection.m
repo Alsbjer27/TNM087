@@ -33,17 +33,16 @@ function GImage = GammaCorrection( OImage, Gamma, Lower, Upper )
 %
 %% Image class handling
 % Make sure that you can handle input images of class uint8, uint16 and double 
-ReadImage = imread(OImage); 
-ReadImage = im2double(ReadImage);
-GImage = ReadImage;
+ReadImage = im2double(OImage);
+
 %% Compute lower and upper gray value boundaries. 
 % Use the parameteers Lower and Upper to find the corresponding gray values for the boundaries
 % (look at the help function for the command 'quantile')
 % The quantile values should be computed for the full mage, not for rows or columns. 
 % This is similar to how you computes max- and minvalues in preparation 1A 
 
-lowgv = quantile(GImage(:),Lower) % Lower-bound gray value
-uppgv = quantile(GImage(:),Upper) % Upper-bound gray value
+lowgv = quantile(ReadImage(:),Lower); % Lower-bound gray value
+uppgv = quantile(ReadImage(:),Upper); % Upper-bound gray value
 
 %% Compute a scaled version of the image, where: 
 % the lower-bound gray value is zero 
@@ -51,15 +50,16 @@ uppgv = quantile(GImage(:),Upper) % Upper-bound gray value
 % Then make sure that the range of ScaledImage is [0,1] by setting all 
 % pixels<0 to 0 and all pixels >1 to 1
 
-ScaledImage = 
-ScaledImage = (OImage-lowgv)/(uppgv-lowgv);
+ScaledImage = (ReadImage-lowgv)/(uppgv-lowgv);
+ScaledImage = min(ScaledImage, 1);
+ScaledImage = max(ScaledImage, 0);
 
 %% Gamma mapping of the previous result 
 % Make sure that ScaledImage is in the range [0,1] before applying gamma
 % correction! You can e.g. use min(ScaledImage(:)) and max(ScaledImage(:))
 % No for-loops should be used!
 
-GImage = ... % apply gamma correction (which is an elementwise operation)
+GImage = ScaledImage.^Gamma; % apply gamma correction (which is an elementwise operation)
 
 
 %% Test your code
@@ -86,12 +86,15 @@ GImage = ... % apply gamma correction (which is an elementwise operation)
 % to use (don't forget to comment your text)
 % 
 % 'spillway-dark.tif':
-%
-%
+% With Gamma=0.4, Lower=0.1, Upper=0.9 as reference image we can see that
+% with Gamma=0.4, Lower=0.5, upper=0.9 that we lose the bright pixels
+% If we instead increase the gamma value so we have 
+% Gamma=0.9, Lower=0.1, Upper=0.9 the image gets higher contrast.
+% With lower value at Upper such as 0.3 we lose majorty of dark pixels
 %
 %
 % 'aerialview-washedout.tif'
-%
+% 
 %
 %
 %
@@ -99,7 +102,7 @@ GImage = ... % apply gamma correction (which is an elementwise operation)
 % ramp displayed on a monitor with gamma =2.5. 
 % Which value for gamma should you use in your code to correct the image to appear as a linear intensity ramp?
 % (Set Lower=0 and Upper=1)
-% Gamma = ?
+% Gamma = Approxiamtely 0.35
 
 %% Control question
 % Before you hand in your code:
@@ -107,7 +110,9 @@ GImage = ... % apply gamma correction (which is an elementwise operation)
 % Have you tested your code accordiing to the instructions above and confirmed
 % that GImage is in the range [0,1] and can be displayed (using imshow) without warnings?
 % Answer 'yes' or 'no'.
-% Your answer: 
+% Your answer: yes
+% max(GImage(:)) = 1;
+% min(GImage(:)) = 0;
 %
 % If 'no': your code is not functioning correctly and needs to be fixed before submission. 
 % In that case, ask the teachers for clarification before submitting the code.
