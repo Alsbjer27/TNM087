@@ -25,22 +25,23 @@ function [RGB_Range, IR_Select] = LevelSlicing( RGB_Image, IR_Image, LevelRange)
 %       RGB_Range: RGB image of type double, displaying the selected intensity range
 %       IR_Select: RGB image of type double, displaying the position of the
 %       selected pixel in the IR-image
-
 % You MUST NEVER change the first line
 %
 %% Important rule
 % Don't change the structure of the template by removing %% lines
-%
-%% Image size and image class handling
-%
-[nr,nc,nch] = size(RGB_Image); % Number of rows, columns and channels in the image
 
+%% Image size and image class handling
+RGB_Image = im2double(RGB_Image);
+IR_Image = im2double(IR_Image);
+[nr,nc,nch] = size(RGB_Image); % Number of rows, columns and channels in the image
 
 %% Show the IR image to select a pixel with reference intensity value
 
 fh1=figure; imshow(IR_Image);
 set(fh1,'NumberTitle','off','Name','Select a pixel for reference intensity level')
 [x,y] = ginput(1); % x and y are the coordinates of the reference pixel 
+x = round(x);
+y = round(y);
 
 % Note that x and y are not the same as row and column! 
 % Refer to the help-section for the function ginput for reference
@@ -49,19 +50,22 @@ set(fh1,'NumberTitle','off','Name','Select a pixel for reference intensity level
 % Based on the coordinates of the selected pixel (expressed in x,y )
 % find the selected intensity level. Then compute the selected intensity range,
 % based on the vaiable LevelRange
-intensity = 
-Lower = ... % The lowest intensity value in the selected range
-Higher = ... % The highest intensity value in the selected range
+intensity = LevelRange / 200;
+Lower = IR_Image(y,x) - intensity; % The lowest intensity value in the selected range
+Higher = IR_Image(y,x) + intensity; % The highest intensity value in the selected range
     
 %% Mask out the areas ine th RGB image, based on the selected intensity range in the IR image
 % Compute a mask (binary image) from the IR image, which is ONE only where IR<Higher & IR>Lower
 
-Mask = ... %
+Mask = IR_Image<Higher & IR_Image>Lower; %
     
 % Use the Mask to mask out the areas within ths selected IR-range in the RGB-images
 % (for all 3 color channels)
 
-RGB_Range = ... %
+RGB_Range(:,:,1) = RGB_Image(:,:,1).*Mask;
+RGB_Range(:,:,2) = RGB_Image(:,:,2).*Mask; 
+RGB_Range(:,:,3) = RGB_Image(:,:,3).*Mask; 
+
     
 %% Show the selected pixel in the IR-image
 % Crete an image that shows the position of the selected pixel in the IR-image, using a red mark.
@@ -74,7 +78,7 @@ IR_Select=cat(3,IR_Image,IR_Image,IR_Image);
 % be displayed in grayscale (exept for the red mark). 
 % Now modify IR_select to mark the selected pixel in red!
 
-IR_Select(...) = ...
+IR_Select(y-5:y+5,x-5:x+5, 1) = 1;
     
 
 %% Display the result
@@ -112,7 +116,7 @@ set(fh2,'NumberTitle','off','Name','RGB / RGB: selected range/ IR: selected pixe
 % Have you tested your code accordiing to the instructions above that and made sure that it works correctly 
 % also when selecting a pixel to the far RIGHT side, that the red mark is clearly 
 % visible and located at the correct position? 
-% Your answer: 
+% Your answer: yes
 %
 % If 'no': your code is not functioning correctly and needs to be fixed before submission. 
 % In that case, ask the teachers for clarification before submitting the code.

@@ -163,5 +163,26 @@ GImage = GammaCorrection(Image, 0.3, 0, 1);
 figure(2)
 imshow(GImage)
 
+%% Testing LevelSlicing
+
+RGB_Image = imread("RGBflower.tif");
+IR_Image = imread('IRflower.tif');
+
+LevelSlicing(RGB_Image, IR_Image, 10);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
