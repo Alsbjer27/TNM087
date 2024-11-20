@@ -1,3 +1,5 @@
+% Version 1
+
 %% 1. Testing different box filters
 testImage = imread('TestPattern.tif');
 testImage = im2double(testImage);

@@ -16,6 +16,7 @@ function [olp, ohp, obr, obp, oum, ohb]=myfilter(im, lp1, lp2)
 %
 % Authors: Emil Alsbjer, emial133
 %          Victor Ström, vicst918
+% Version: 1
 % Same LiU-IDs/names, as in the Lisam submission
 % You can work in groups of max 2 students
 %
