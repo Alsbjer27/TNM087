@@ -127,8 +127,7 @@ oum =  im + unsharpMask;% the resulting image after unsharp masking
 %% Highboost filtering
 % Perform highboost filtering using lp2 (use k=2.5), here:
 k = 2.5;
-ohb =  k * im - imfilter(im,lp2,"symmetric");% the resulting image after highboost filtering
-
+ohb =  k * (im - imfilter(im,lp2,"symmetric"));% the resulting image after highboost filtering
 
 %% Test your code
 % Test your code on various images using different low-pass filters as input arguments. 
@@ -169,7 +168,7 @@ ohb =  k * im - imfilter(im,lp2,"symmetric");% the resulting image after highboo
 % Your answer: Yes, we think so!
 %
 % 3. Do these six output images look as expected? Answer 'yes' or 'no'.
-% Your answer: 
+% Your answer: Yes
 %    If 'no', either your code is not functioning correctly and needs to be fixed before submission, or you may be unsure of the expected results. 
 %    In that case, ask the teachers for clarification before submitting the code.
 

@@ -97,13 +97,13 @@ subplot(2, 3, 6), imshow(ohb), title('Highboost');
 
 %% EliminateObjects 
 
-
+% Ladda och skala bilder
 test1 = im2double(imread('test1.tif'));
 test2 = im2double(imread('test2.tif'));
 test3 = im2double(imread('test3.tif'));
 test4 = im2double(imread('test4.tif'));
 
-% test1
+% Kör funktionen med olika värden av q
 % figure(1);
 % imshow(eliminateobjects(test1, 1)), title('Test1, q=1');
 % figure(2)
@@ -111,37 +111,24 @@ test4 = im2double(imread('test4.tif'));
 % figure(3)
 % imshow(eliminateobjects(test1, 5)), title('Test1, q=5');
 % figure(4)
-% imshow(eliminateobjects(test1, 6)), title('Test1, q=7');
+% imshow(eliminateobjects(test1, 6)), title('Test1, q=6');
 
-% test2
-% figure(1)
-% imshow(eliminateobjects(test2, 2)), title('Test2, q=2');
-% figure(2)
-% imshow(eliminateobjects(test2, 4)), title('Test2, q=4');
-% figure(3)
-% imshow(eliminateobjects(test2, 6)), title('Test2, q=6');
-% figure(4)
-% imshow(eliminateobjects(test2, 7)), title('Test2, q=7');
 
-% test3
-% figure(1)
-% imshow(eliminateobjects(test3, 11)), title('Test3, q=11');
-% figure(2)
-% imshow(eliminateobjects(test3, 15)), title('Test3, q=15');
-% figure(3)
-% imshow(eliminateobjects(test3, 19)), title('Test3, q=19');
-% figure(4)
-% imshow(eliminateobjects(test3, 22)), title('Test3, q=22');
 
-% test4 
-figure(1)
-imshow(eliminateobjects(test4, 2)), title('Test4, q=2');
-figure(2)
-imshow(eliminateobjects(test4, 3)), title('Test4, q=3');
-figure(3)
-imshow(eliminateobjects(test4, 5)), title('Test4, q=5');
-figure(4)
-imshow(eliminateobjects(test4, 6)), title('Test4, q=6');
+imshow(eliminateobjects(test2, 2)), title('Test2, q=2');
+imshow(eliminateobjects(test2, 4)), title('Test2, q=4');
+imshow(eliminateobjects(test2, 6)), title('Test2, q=6');
+imshow(eliminateobjects(test2, 7)), title('Test2, q=7');
+% 
+% subplot(4, 4, 9), imshow(eliminateobjects(test3, 11)), title('Test3, q=11');
+% subplot(4, 4, 10), imshow(eliminateobjects(test3, 15)), title('Test3, q=15');
+% subplot(4, 4, 11), imshow(eliminateobjects(test3, 19)), title('Test3, q=19');
+% subplot(4, 4, 12), imshow(eliminateobjects(test3, 22)), title('Test3, q=22');
+% 
+% subplot(4, 4, 13), imshow(eliminateobjects(test4, 2)), title('Test4, q=2');
+% subplot(4, 4, 14), imshow(eliminateobjects(test4, 3)), title('Test4, q=3');
+% subplot(4, 4, 15), imshow(eliminateobjects(test4, 5)), title('Test4, q=5');
+% subplot(4, 4, 16), imshow(eliminateobjects(test4, 6)), title('Test4, q=6');
 
 
 

@@ -131,8 +131,7 @@ output = o_thresh .* im + (~o_thresh .*B); % the output image
 % 4. Why was your code unable to eliminate one of the 2 x 2 objects in test4.tif when q = 2? 
 % Your answer: the 6x6 object affects the filtered intensity for the smaller 2x2
 % object. With symmetric padding we include the pixels from the
-% larger object in teh calculation, which prevents the smaller object to
-% fall below the set threshold.
+% larger object 
 %
 %
 %
