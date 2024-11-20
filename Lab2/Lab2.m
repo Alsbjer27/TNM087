@@ -67,17 +67,31 @@ imshow(Image9)
 imwrite(Image9, 'Image9.tif')
 %% Spatial filtering
 im = imread('zoneplate.tif');
-im = im2double(im);
+%im = im2double(im);
 
 lp1 = fspecial('gaussian', 35, 5.8);
 lp2 = fspecial('gaussian', 43, 7.2);
 
 [olp, ohp, obr, obp, oum, ohb] = myfilter(im, lp1, lp2);
 
-figure;
-subplot(2, 3, 1), imshow(olp), title('Lowpass (lp1)');
-subplot(2, 3, 2), imshow(ohp), title('Highpass');
-subplot(2, 3, 3), imshow(obr), title('Bandreject');
-subplot(2, 3, 4), imshow(imadjust(obp)), title('Bandpass (contrast stretched)');
-subplot(2, 3, 5), imshow(oum), title('Unsharp Masking');
-subplot(2, 3, 6), imshow(ohb), title('Highboost');
+figure(1);
+imshow(olp), title('Lowpass');
+figure(2)
+imshow(ohp), title('Highpass');
+figure(3)
+imshow(obr), title('Bandreject');
+figure(4)
+imshow(obp,[]), title('Bandpass');
+figure(5)
+imshow(oum), title('Unsharp Masking')
+figure(6)
+imshow(ohb), title('Highboost');
+
+
+% subplot(2, 3, 1), imshow(olp), title('Lowpass (lp1)');
+% subplot(2, 3, 2), imshow(ohp), title('Highpass');
+% subplot(2, 3, 3), imshow(obr), title('Bandreject');
+% subplot(2, 3, 4), imshow(imadjust(obp)), title('Bandpass (contrast stretched)');
+% subplot(2, 3, 5), imshow(oum), title('Unsharp Masking');
+% subplot(2, 3, 6), imshow(ohb), title('Highboost');
+

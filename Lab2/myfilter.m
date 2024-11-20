@@ -95,7 +95,7 @@ obr = imfilter(im, br1, "symmetric"); % the bandreject filtered image
 % Construct a bandpass filter kernel from br1, call it bp1, here:
 [M,N] = size(br1);
 impulse = zeros(M,N);
-impulse(floor(M/2)+1,floor(N/2)+1);
+impulse(floor(M/2)+1,floor(N/2)+1) = 1;
 
 
 bp1 = impulse - br1; % the bandpass filter kernel
@@ -103,11 +103,11 @@ bp1 = impulse - br1; % the bandpass filter kernel
 
 % Filter the input image by bp1, to find the result of bandpass filtering
 % the input image, here:
-% Constrast stretching:
+% Contrast stretching:
 
-g_min = min(im(:));
-g_max = max(im(:));
 doubleImage = im2double(im);
+g_min = min(doubleImage(:));
+g_max = max(doubleImage(:));
 T_doubleImage = doubleImage - g_min;
 N_doubleImage = g_max - g_min;
 
