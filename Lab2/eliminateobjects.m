@@ -19,7 +19,7 @@ function output=eliminateobjects(im, q)
 %
 % Authors: Emil Alsbjer, emial133
 %          Victor Ström, vicst918
-% Version: 1
+% Version: 2
 % Same LiU-IDs/names, as in the Lisam submission
 % You can work in groups of max 2 students
 %
@@ -59,12 +59,12 @@ n_formula = q * sqrt((5*(Q-B))/(Q-5*B));% The size of the required filter
 %% Find the smallest (odd) size of the filter here:
 
 
-n = floor(n_formula); % the smallest odd size of the filter
+n = ceil(n_formula)
+if mod(n, 2) == 0;
+    n = n + 1 % Resultarar i udda
+end
 
 %% Construct the box kernel here:
-if mod(n, 2) == 0
-    n = n + 1;
-end
 fbox = ones(n, n) / (n^2); % the box filter kernel
 
 
