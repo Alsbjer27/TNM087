@@ -1,4 +1,4 @@
-% Version 1
+% Version 2
 
 %% 1. Testing different box filters
 testImage = imread('TestPattern.tif');
@@ -57,17 +57,17 @@ SobY = [-1 0 1; -2 0 2; -1 0 1];
 Image7 = filter2(SobX, testImage);
 figure(1)
 imshow(Image7)
-% imwrite(Image7, 'Image7.tif')
+imwrite(Image7, 'Image7.tif')
 % 2.11)
 Image8 = filter2(SobY, testImage);
 figure(2)
 imshow(Image8)
-% imwrite(Image8, 'Image8.tif')
+imwrite(Image8, 'Image8.tif')
 % 2.12)
 Image9 = sqrt((Image8.^2)+(Image7.^2));
 figure(3)
 imshow(Image9)
-% imwrite(Image9, 'Image9.tif')
+imwrite(Image9, 'Image9.tif')
 %% Spatial filtering
 im = imread('zoneplate.tif');
 %im = im2double(im);
@@ -78,24 +78,24 @@ lp2 = fspecial('gaussian', 43, 7.2);
 [olp, ohp, obr, obp, oum, ohb] = myfilter(im, lp1, lp2);
 
 figure(1);
-% imshow(olp), title('Lowpass');
-% figure(2)
-% imshow(ohp), title('Highpass');
-% figure(3)
-% imshow(obr), title('Bandreject');
+imshow(olp), title('Lowpass');
+figure(2)
+imshow(ohp), title('Highpass');
+figure(3)
+imshow(obr), title('Bandreject');
 figure(4)
 imshow(obp,[]), title('Bandpass');
-% figure(5)
-% imshow(oum), title('Unsharp Masking')
-% figure(6)
-% imshow(ohb), title('Highboost');
+figure(5)
+imshow(oum), title('Unsharp Masking')
+figure(6)
+imshow(ohb), title('Highboost');
 
-subplot(2, 3, 1), imshow(olp), title('Lowpass (lp1)');
-subplot(2, 3, 2), imshow(ohp), title('Highpass');
-subplot(2, 3, 3), imshow(obr), title('Bandreject');
-subplot(2, 3, 4), imshow(imadjust(obp)), title('Bandpass (contrast stretched)');
-subplot(2, 3, 5), imshow(oum), title('Unsharp Masking');
-subplot(2, 3, 6), imshow(ohb), title('Highboost');
+% subplot(2, 3, 1), imshow(olp), title('Lowpass (lp1)');
+% subplot(2, 3, 2), imshow(ohp), title('Highpass');
+% subplot(2, 3, 3), imshow(obr), title('Bandreject');
+% subplot(2, 3, 4), imshow(imadjust(obp)), title('Bandpass (contrast stretched)');
+% subplot(2, 3, 5), imshow(oum), title('Unsharp Masking');
+% subplot(2, 3, 6), imshow(ohb), title('Highboost');
 
 %% EliminateObjects 
 
@@ -125,25 +125,25 @@ test4 = im2double(imread('test4.tif'));
 % figure(4)
 % imshow(eliminateobjects(test2, 7)), title('Test2, q=7');
 
-% % % test3
-% figure(1)
-% imshow(eliminateobjects(test3, 11)), title('Test3, q=11');
-% figure(2)
-% imshow(eliminateobjects(test3, 15)), title('Test3, q=15');
-% figure(3)
-% imshow(eliminateobjects(test3, 19)), title('Test3, q=19');
-% figure(4)
-% imshow(eliminateobjects(test3, 22)), title('Test3, q=22');
+% % test3
+figure(1)
+imshow(eliminateobjects(test3, 11)), title('Test3, q=11');
+figure(2)
+imshow(eliminateobjects(test3, 19)), title('Test3, q=19');
+figure(3)
+imshow(eliminateobjects(test3, 31)), title('Test3, qS=31');
+figure(4)
+imshow(eliminateobjects(test3, 43)), title('Test3, q=43');
 
 % % test4 
-figure(1)
-imshow(eliminateobjects(test4, 2)), title('Test4, q=2');
-figure(2)
-imshow(eliminateobjects(test4, 3)), title('Test4, q=3');
-figure(3)
-imshow(eliminateobjects(test4, 5)), title('Test4, q=5');
-figure(4)
-imshow(eliminateobjects(test4, 6)), title('Test4, q=6');
+% figure(1)
+% imshow(eliminateobjects(test4, 2)), title('Test4, q=2');
+% figure(2)
+% imshow(eliminateobjects(test4, 3)), title('Test4, q=3');
+% figure(3)
+% imshow(eliminateobjects(test4, 5)), title('Test4, q=5');
+% figure(4)
+% imshow(eliminateobjects(test4, 6)), title('Test4, q=6');
 
 
 

@@ -16,7 +16,7 @@ function [olp, ohp, obr, obp, oum, ohb]=myfilter(im, lp1, lp2)
 %
 % Authors: Emil Alsbjer, emial133
 %          Victor Ström, vicst918
-% Version: 1
+% Version: 2
 % Same LiU-IDs/names, as in the Lisam submission
 % You can work in groups of max 2 students
 %
@@ -113,8 +113,8 @@ T_doubleImage = doubleImage - g_min;
 N_doubleImage = g_max - g_min;
 
 kvot = T_doubleImage/N_doubleImage;
-K = 1;
-im = kvot .* K;
+
+im = kvot;
 
 obp = imfilter(im, bp1,"symmetric"); % the bandpass filtered image
 
@@ -128,7 +128,7 @@ oum =  im + unsharpMask;% the resulting image after unsharp masking
 %% Highboost filtering
 % Perform highboost filtering using lp2 (use k=2.5), here:
 k = 2.5;
-ohb =  k * (im + imfilter(im,lp2,"symmetric")); % the resulting image after highboost filtering
+ohb =  im + (k*unsharpMask); % the resulting image after highboost filtering
 
 %% Test your code
 % Test your code on various images using different low-pass filters as input arguments. 

@@ -59,9 +59,9 @@ n_formula = q * sqrt((5*(Q-B))/(Q-5*B));% The size of the required filter
 %% Find the smallest (odd) size of the filter here:
 
 
-n = ceil(n_formula)
-if mod(n, 2) == 0;
-    n = n + 1 % Resultarar i udda
+n = ceil(n_formula);
+if mod(n, 2) == 0
+    n = n + 1; % Resultarar i udda
 end
 
 %% Construct the box kernel here:
