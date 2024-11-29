@@ -65,9 +65,21 @@ figure;
 imshow(Spec5);
 imwrite(Spec5,'Spec5.tif')
 
+%% 2 Period and Frequency
 
+% 2.1) 
+v2 = imread('verticalbars_2.tif');
+%imshow(v2)
+F6 = fftshift(fft2(v2));
+A6 = log(1 + abs(F6));
+Spec6 = A6 / max(A6(:));
+figure
+imshow(Spec6);
 
-
+% 2.2) Written in document.
+v4 = imread('verticalbars_4.tif');
+figure
+imshow(v4)
 
 
 
