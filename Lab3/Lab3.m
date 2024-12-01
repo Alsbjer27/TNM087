@@ -81,8 +81,33 @@ v4 = imread('verticalbars_4.tif');
 figure
 imshow(v4)
 
+%% 3. Importance of the spectrum and the phase angle
 
+E1 = imread('Einstein1.jpg');
+E1 = im2double(E1);
 
+E2 = imread("Einstein2.jpg");
+E2 = im2double(E2);
+
+% 3.4)
+F7 = fftshift(fft2(E1));
+F8 = fftshift(fft2(E2));
+
+angleF7 = angle(F7);
+angleF8 = angle(F8);
+
+Spec7 = abs(F7);
+Spec8 = abs(F8);
+
+E1_E2 = real(ifft2(Spec7.*exp(1i*angleF8)));
+figure;
+imshow(E1_E2)
+imwrite(E1_E2, 'E1_E2.tif')
+
+E2_E1 = real(ifft2(Spec8.*exp(1i*angleF7)));
+figure;
+imshow(E2_E1);
+imwrite(E2_E1, 'E2_E1.tif')
 
 
 
