@@ -60,7 +60,7 @@ fp(1:M, 1:N) = f;
 % this MATLAB function
 
 [U, V] = meshgrid( -P/2:P/2-1, -Q/2:Q/2-1);
-D = sqrt(U.^2 + V.^2);
+D = sqrt(U.^2 + V.^2); % Is wrong
 
 GLPF= exp(-(D.^2)/(2*D0.^2)); % the Gaussian lowpass filter transfer function
 GHPF= 1 - GLPF; % the Gaussian highpass filter transfer function
