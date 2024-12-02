@@ -59,10 +59,8 @@ fp(1:M, 1:N) = f;
 % The cutoff frequency of this filter, D0, is the second input argument of
 % this MATLAB function
 
-[X, Y] = meshgrid(0:P-1, 0:Q-1);
-X = X';
-Y = Y';
-D = sqrt((X - P/2).^2 + (Y-Q/2).^2);
+[U, V] = meshgrid( -P/2:P/2-1, -Q/2:Q/2-1);
+D = sqrt(U.^2 + V.^2);
 
 GLPF= exp(-(D.^2)/(2*D0.^2)); % the Gaussian lowpass filter transfer function
 GHPF= 1 - GLPF; % the Gaussian highpass filter transfer function
@@ -72,7 +70,7 @@ GHPF= 1 - GLPF; % the Gaussian highpass filter transfer function
 % transform of the padded image (Notice that the zero frequency is supposed
 % to be shifted to the center of the Fourier transform)
 
-fFourierT = fftshift(fp);
+fFourierT = fftshift(fft2(fp));
 
 OLP= GLPF.*fFourierT; % The Fourier transform of the lowpass filtered image
 OHP= GHPF.*fFourierT; % The Fourier transform of the highpass filtered image
@@ -82,21 +80,22 @@ OHP= GHPF.*fFourierT; % The Fourier transform of the highpass filtered image
 % image followed by the inverse Fourier transform. Take the real part of
 % the result.
 OLP_S = ifftshift(OLP);
+OHP_S = ifftshift(OHP);
 
-olpf= real(ifft2()) % The padded lowpass filtered image of size P x Q
-ohpf= ... % The padded highpass filtered image of size P x Q    
+olpf = real(ifft2(OLP_S)); % The padded lowpass filtered image of size P x Q
+ohpf = real(ifft2(OHP_S)); % The padded highpass filtered image of size P x Q    
 
 %% Find the lowpass and highpass filtered image
 % Extract the final lowpass and highpass filtered images from their padded
 % versions
 
-olp= ... % The final lowpass filtered image
-ohp1= ... % The final highpass filtered image (approach 1)
+olp= olpf(1:M, 1:N); % The final lowpass filtered image
+ohp1= ohpf(1:M, 1:N); % The final highpass filtered image (approach 1)
 
 %% Find the highpass filtered image (approach 2)
 % Read the document for this task
 
-ohp2= ... % The final highpass filtered image
+ohp2 = f - olp; % The final highpass filtered image
     
 %% Test your code
 % Test your code on various images (e.g., Einstein1.jpg, Einstein2.jpg, or characterTestPattern.tif)
@@ -122,7 +121,7 @@ ohp2= ... % The final highpass filtered image
 %
 % 1. Did you test your code following the instructions above and examine all three output 
 % images for the three cutoff frequencies? (Answer 'yes' or 'no'. If 'no', test your code!)
-% Your answer: 
+% Your answer: Yes
 %
 % 2. Did you ensure your code functions correctly with any input image? 
 % (Answer 'yes' or 'no'. If 'no', make sure it does!)
@@ -132,13 +131,16 @@ ohp2= ... % The final highpass filtered image
 % Will the result be blurrier or less blurry? Explain why this happens.
 % Your answer: (don't forget to provide an explanation)
 %
-%
+% When we increse the cutoff frequency we get a less blurry image.  
+% As we increase the cutoff frequencies we get inlcude more of the higher
+% frequencies, which means we will inlcude more shar edges and details in
+% the image.
 %
 % 4. What happens to the highpass filtered image when you increase the cutoff frequency? 
 % Do you observe more or fewer details? Explain why this happens.
 % Your answer: (don't forget to provide an explanation)
 %
-%
+% 
 %
 %
 % 5. Did you confirm that ohp1 and ohp2 are identical for all three cutoff frequencies?

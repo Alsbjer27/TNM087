@@ -77,6 +77,8 @@ figure
 imshow(Spec6);
 
 % 2.2) Written in document.
+
+% 2.3)
 v4 = imread('verticalbars_4.tif');
 figure
 imshow(v4)
@@ -108,6 +110,47 @@ E2_E1 = real(ifft2(Spec8.*exp(1i*angleF7)));
 figure;
 imshow(E2_E1);
 imwrite(E2_E1, 'E2_E1.tif')
+
+%% Test FilterFreq
+
+im = imread('Einstein1.jpg'); 
+D01 = 40; 
+[olp, ohp1, ohp2] = FilterFreq(im, D01);
+
+% figure;
+% imshow(olp, []), title('Lowpass Filtered: cutoff 40');
+% figure;
+imshow(ohp1, []), title('Highpass Filtered (Approach 1): cutoff 40');
+figure;
+imshow(ohp2, []), title('Highpass Filtered (Approach 2): cutoff 40');
+
+% D02 = 80;
+% 
+% [olp_2, ohp1_2, ohp2_2] = FilterFreq(im, D02);
+% 
+% % figure;
+% % imshow(olp_2, []), title('Lowpass Filtered: cutoff 80');
+% figure;
+% imshow(ohp1_2, []), title('Highpass Filtered (Approach 1): cutoff 80');
+% figure;
+% imshow(ohp2_2, []), title('Highpass Filtered (Approach 2): cutoff 80');
+
+
+% D03 = 120;
+% 
+% [olp_3, ohp1_3, ohp2_3] = FilterFreq(im, D03);
+% 
+% % figure;
+% % imshow(olp_3, []), title('Lowpass Filtered: cutoff 120');
+% figure;
+% imshow(ohp1_3, []), title('Highpass Filtered (Approach 1): cutoff 120');
+% figure;
+% imshow(ohp2_3, []), title('Highpass Filtered (Approach 2): cutoff 120');
+
+
+
+
+
 
 
 
