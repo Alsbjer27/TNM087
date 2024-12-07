@@ -118,34 +118,95 @@ D01 = 40;
 [olp, ohp1, ohp2] = FilterFreq(im, D01);
 
 % figure;
-% imshow(olp, []), title('Lowpass Filtered: cutoff 40');
-% figure;
+imshow(olp, []), title('Lowpass Filtered: cutoff 40');
+figure;
 imshow(ohp1, []), title('Highpass Filtered (Approach 1): cutoff 40');
 figure;
 imshow(ohp2, []), title('Highpass Filtered (Approach 2): cutoff 40');
 
-% D02 = 80;
-% 
-% [olp_2, ohp1_2, ohp2_2] = FilterFreq(im, D02);
-% 
-% % figure;
-% % imshow(olp_2, []), title('Lowpass Filtered: cutoff 80');
-% figure;
-% imshow(ohp1_2, []), title('Highpass Filtered (Approach 1): cutoff 80');
-% figure;
-% imshow(ohp2_2, []), title('Highpass Filtered (Approach 2): cutoff 80');
+D02 = 80;
+
+[olp_2, ohp1_2, ohp2_2] = FilterFreq(im, D02);
+
+figure;
+imshow(olp_2, []), title('Lowpass Filtered: cutoff 80');
+figure;
+imshow(ohp1_2, []), title('Highpass Filtered (Approach 1): cutoff 80');
+figure;
+imshow(ohp2_2, []), title('Highpass Filtered (Approach 2): cutoff 80');
 
 
-% D03 = 120;
+D03 = 120;
+
+[olp_3, ohp1_3, ohp2_3] = FilterFreq(im, D03);
+
+figure;
+imshow(olp_3, []), title('Lowpass Filtered: cutoff 120');
+figure;
+imshow(ohp1_3, []), title('Highpass Filtered (Approach 1): cutoff 120');
+figure;
+imshow(ohp2_3, []), title('Highpass Filtered (Approach 2): cutoff 120');
+
+%%
+
+% Load the image and normalize
+im = im2double(imread('Einstein1.jpg'));
+
+% Set the cutoff frequency
+D0 = 120; % Example cutoff frequency
+
+% Call the FilterFreq function
+[~, ohp1, ohp2] = FilterFreq(im, D0);
+
+% Initialize n and a flag
+n = 0; % Start with 0 decimal places
+
+while true
+    % Round both images to n decimal places
+    ohp1_rounded = round(ohp1, n);
+    ohp2_rounded = round(ohp2, n);
+    
+    % Check if they are identical
+    if sum(sum(ohp1_rounded ~= ohp2_rounded)) > 0
+        break; % Stop when they are no longer identical
+    end
+    
+    % Increment n
+    n = n + 1;
+end
+
+% Display the maximum n where they are identical
+disp(['Maximum n where ohp1 and ohp2 are identical: ', num2str(n-1)]);
+
+
+%% Test RemoveSinusoidalNoise
+% im = imread("astronaut-interference.tif");
+% im = im2double(im);
 % 
-% [olp_3, ohp1_3, ohp2_3] = FilterFreq(im, D03);
+% D0 = 1;
+% out = RemoveSinusoidalNoise(im, D0);
 % 
-% % figure;
-% % imshow(olp_3, []), title('Lowpass Filtered: cutoff 120');
 % figure;
-% imshow(ohp1_3, []), title('Highpass Filtered (Approach 1): cutoff 120');
-% figure;
-% imshow(ohp2_3, []), title('Highpass Filtered (Approach 2): cutoff 120');
+% imshow(out);
+% 
+% im2 = imread("Einstein_odd_sinus.tif");
+% im2 = im2double(im2);
+% 
+% out2 = RemoveSinusoidalNoise(im2,D0);
+
+% im3 = imread("Einstein_sinus_1.tif");
+% im3 = im2double(im3);
+% 
+% D0_2 = 11;
+% out3 = RemoveSinusoidalNoise(im3, D0_2);
+
+im4 = imread("Einstein_sinus_2.tif");
+im4 = im2double(im4);
+
+D0_3 = 15;
+out4 = RemoveSinusoidalNoise(im4,D0_3);
+
+
 
 
 

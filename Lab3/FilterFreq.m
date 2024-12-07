@@ -47,8 +47,7 @@ f = im2double(f);
 [M,N] = size(f);
 P = 2 * M;
 Q = 2 * N;
-fp = zeros(P, Q); % the zero padded image
-fp(1:M, 1:N) = f;
+fp = padarray(f, [M, N], 0, 'post');
     
 %% construct the Gaussian lowpass and highpass filter transfer functions
 % If you want, you can write a separate function to construct the Gaussian filter.
@@ -59,8 +58,8 @@ fp(1:M, 1:N) = f;
 % The cutoff frequency of this filter, D0, is the second input argument of
 % this MATLAB function
 
-[U, V] = meshgrid( -P/2:P/2-1, -Q/2:Q/2-1);
-D = sqrt(U.^2 + V.^2); % Is wrong
+[X,Y] = meshgrid(0:P-1, 0:Q-1);
+D = sqrt((X - P/2).^2 + (Y - Q/2).^2); 
 
 GLPF= exp(-(D.^2)/(2*D0.^2)); % the Gaussian lowpass filter transfer function
 GHPF= 1 - GLPF; % the Gaussian highpass filter transfer function
@@ -89,8 +88,8 @@ ohpf = real(ifft2(OHP_S)); % The padded highpass filtered image of size P x Q
 % Extract the final lowpass and highpass filtered images from their padded
 % versions
 
-olp= olpf(1:M, 1:N); % The final lowpass filtered image
-ohp1= ohpf(1:M, 1:N); % The final highpass filtered image (approach 1)
+olp = olpf(1:M, 1:N); % The final lowpass filtered image
+ohp1 = ohpf(1:M, 1:N); % The final highpass filtered image (approach 1)
 
 %% Find the highpass filtered image (approach 2)
 % Read the document for this task
@@ -133,28 +132,31 @@ ohp2 = f - olp; % The final highpass filtered image
 %
 % When we increse the cutoff frequency we get a less blurry image.  
 % As we increase the cutoff frequencies we get inlcude more of the higher
-% frequencies, which means we will inlcude more shar edges and details in
+% frequencies, which means we will inlcude more sharp edges and details in
 % the image.
 %
 % 4. What happens to the highpass filtered image when you increase the cutoff frequency? 
 % Do you observe more or fewer details? Explain why this happens.
-% Your answer: (don't forget to provide an explanation)
-%
+% Your answer: 
 % 
-%
+% Highpass filter removes low frequencies, leaving only high frequencies
+% that represent edges and details. 
+% When D0 is small we only retain the highest frequrncies (sharp edges) 
+% When we have a large D0 more high frequencies will pass through and have
+% more details visible.
 %
 % 5. Did you confirm that ohp1 and ohp2 are identical for all three cutoff frequencies?
 % (Answer 'yes' or 'no'. If 'no', make sure you do!)
-% Your answer:
+% Your answer: Yes
 %
 % 6. What is the maximum number of decimal places (n, as referred to in the instructions) to which 
 % you rounded ohp1 and ohp2 to ensure they were identical for the following cutoff frequencies, 
 % using the original image Einstein1.jpg.
 % 
 % Your answer:
-% What is n for a cutoff frequency of 40? 
-% What is n for a cutoff frequency of 80? 
-% What is n for a cutoff frequency of 120?
+% What is n for a cutoff frequency of 40? 10
+% What is n for a cutoff frequency of 80? 9
+% What is n for a cutoff frequency of 120? 10
 %
 %
 %
