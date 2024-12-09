@@ -71,7 +71,7 @@ figure(1)
 imshow(Mask);
 figure(2)
 imshow(Injection);
-result = Mask - Injection
+result = Mask - Injection;
 figure(3)
 imshow(result)
 imwrite(result, 'result.tif')
