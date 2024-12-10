@@ -69,36 +69,36 @@ SE1 = strel('disk', 3);
 Image1c_1 = imopen(Image1c, SE1);
 Image1c_2 = imclose(Image1c_1, SE1);
 
-figure;
-imshow(Image1c_2);
-imwrite(Image1c_2,'Image1c_2.tif');
+% figure;
+% imshow(Image1c_2);
+% imwrite(Image1c_2,'Image1c_2.tif');
 
 % Prep 10:
 SE2 = strel('line', 6, 0);
 Image1c_clean = imopen(Image1c_2, SE2);
-figure;
-imshow(Image1c_clean)
-imwrite(Image1c_clean, 'Image1c_clean.tif');
+% figure;
+% imshow(Image1c_clean)
+% imwrite(Image1c_clean, 'Image1c_clean.tif');
 
 % Prep 11:
 % a)
 SE3 = strel('disk',11);
 Image1c_3 = imopen(Image1c_clean, SE3);
-figure;
-imshow(Image1c_3);
+% figure;
+% imshow(Image1c_3);
 
 % b)
 MN = [15 100];
 SE4 = strel('rectangle', MN);
 Image1c_4 = imopen(Image1c_clean, SE4);
-figure;
-imshow(Image1c_4);
+% figure;
+% imshow(Image1c_4);
 
 % c)
-SE5 = strel("disk", 15, 0);
+SE5 = strel("disk", 18, 0);
 Image1c_5 = imopen(Image1c_clean, SE5);
-figure;
-imshow(Image1c_5);
+% figure;
+% imshow(Image1c_5);
 
 % d) 
 [r,c] = size(Image1c);
@@ -107,17 +107,37 @@ RGB = zeros(r,c,3);
 RGB(:,:,1) = Image1c_4;
 RGB(:,:,2) = Image1c_5;
 RGB(:,:,3) = ImageDiskSum;
+% figure;
+% imshow(RGB);
+% imwrite(RGB,'RGB.tif');
+
+% Prep 12: Inte löst ännu
+ErodeRGB = imerode(RGB,SE5);
+% figure;
+% imshow(ErodeRGB);
+
+% Prep 13: 
+RiceImage1 = imread("rice-shaded.tif");
+RiceImage1 = im2double(RiceImage1);
+SE6 = strel('disk', 40);
+RiceImage2 = imopen(RiceImage1, SE6);
+
+T_hat = RiceImage1 - RiceImage2;
 figure;
-imshow(RGB);
-imwrite(RGB,'RGB.tif');
+imshow(T_hat)
 
-% Prep 12: 
+level = graythresh(T_hat);
+RiceImage3 = T_hat > level;
+figure;
+imshow(RiceImage3)
+imwrite(RiceImage3, 'RiceImage3.tif');
 
+%% Labelling and objct features
 
-
-
-
-
+% Prep 14:
+L = bwlabel(Image1c_clean);
+figure;
+imshow(L,[]);
 
 
 
