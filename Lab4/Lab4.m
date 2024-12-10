@@ -136,10 +136,41 @@ imwrite(RiceImage3, 'RiceImage3.tif');
 
 % Prep 14:
 L = bwlabel(Image1c_clean);
+% figure;
+% imshow(L,[]);
+
+% Prep 15: 
+stats = regionprops(L,'Perimeter','Area','EulerNumber');
+
+for n=1:length(stats)
+ Perimeter(n) = stats(n).Perimeter; 
+ Area(n) = stats(n).Area;
+ Euler(n) = stats(n).EulerNumber;
+end
+
+Large0 = find(Area > 7500);
+Large0_Im = zeros(r,c);
+
+for n = 1:length(Large0)
+    Large0_Im(L==Large0(n))=1;
+end
+
+% figure;
+% imshow(Large0_Im);
+% imwrite(Large0_Im, 'Large0_Im.tif');
+
+% Prep 16: Not Done
+hist(Perimeter);
+
+thresh = 150;
+
+% Prep 17: Not done
+
+SmallO = find(Perimeter<thresh);
+SmallO_Im=zeros(r,c);
+for n=1:length(SmallO)
+    SmallO_Im(L==SmallO(n))=1;
+end
+
 figure;
-imshow(L,[]);
-
-
-
-
-
+imshow(SmallO_Im);
