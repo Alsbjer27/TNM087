@@ -164,13 +164,55 @@ hist(Perimeter);
 
 thresh = 150;
 
-% Prep 17: Not done
+% Prep 17: Separera objekt med största omkrets och utan hål
+% Filtrera objekt med stor omkrets
+SelectedObjects = find(Perimeter > thresh & Euler == 1);
 
-SmallO = find(Perimeter<thresh);
-SmallO_Im=zeros(r,c);
-for n=1:length(SmallO)
-    SmallO_Im(L==SmallO(n))=1;
+% Skapa en ny bild för de utvalda objekten
+SelectedObjects_Im = zeros(r, c);
+for n = 1:length(SelectedObjects)
+    SelectedObjects_Im(L == SelectedObjects(n)) = 1;
 end
 
+% Visa och spara resultatet
 figure;
-imshow(SmallO_Im);
+imshow(SelectedObjects_Im);
+imwrite(SelectedObjects_Im, 'SelectedObjects_Im.tif');
+
+% Hämta etiketterna för de valda objekten
+Labels_Selected = SelectedObjects;
+disp('Etiketter för de valda objekten:');
+disp(Labels_Selected);
+
+
+%% CountBrickRows Testing
+% brick1 = imread("brick1.jpg");
+% [IMG1, nofr1] = CountBrickRows(brick1);
+
+% brick2 = imread("brick2.jpg");
+% [IMG2, nofr2] = CountBrickRows(brick2);
+
+brick3 = imread("brick3.jpg");
+[IMG3, nofr3] = CountBrickRows(brick3);
+
+%% CountObjects
+MacnRice1 = imread("MacnRice1.tif");
+MacnRice1 = im2double(MacnRice1);
+[IMG1, noRice1, noSmallMacs1, noLargeMacs1]=CountObjects(MacnRice1);
+figure;
+imshow(IMG1);
+
+MacnRice2 = imread("MacnRice2.tif");
+MacnRice2 = im2double(MacnRice2);
+[IMG2, noRice2, noSmallMacs2, noLargeMacs2]=CountObjects(MacnRice2);
+figure;
+imshow(IMG2);
+
+MacnRice3 = imread("MacnRice3.tif");
+MacnRice3 = im2double(MacnRice3);
+[IMG3, noRice3, noSmallMacs3, noLargeMacs3]=CountObjects(MacnRice3);
+figure;
+imshow(IMG3);
+
+
+
