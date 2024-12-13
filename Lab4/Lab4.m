@@ -101,20 +101,32 @@ Image1c_5 = imopen(Image1c_clean, SE5);
 % imshow(Image1c_5);
 
 % d) 
-[r,c] = size(Image1c);
-ImageDiskSum = Image1c_3 - Image1c_5;
-RGB = zeros(r,c,3);
-RGB(:,:,1) = Image1c_4;
-RGB(:,:,2) = Image1c_5;
-RGB(:,:,3) = ImageDiskSum;
-% figure;
-% imshow(RGB);
-% imwrite(RGB,'RGB.tif');
+% Prep 12: Extrahera gränser och skapa RGB-bild
 
-% Prep 12: Inte löst ännu
-ErodeRGB = imerode(RGB,SE5);
-% figure;
-% imshow(ErodeRGB);
+% Extrahera storlek på RGB-bilden
+[r, c, ~] = size(RGB);
+
+% Initialisera en ny RGB-bild för att visa gränserna
+Boundary_RGB = zeros(r, c, 3);
+
+% Extrahera gränser för varje kanal i RGB-bilden
+Boundary_R = bwperim(RGB(:,:,1)); % Gränser för röd kanal
+Boundary_G = bwperim(RGB(:,:,2)); % Gränser för grön kanal
+Boundary_B = bwperim(RGB(:,:,3)); % Gränser för blå kanal
+
+% Kombinera gränserna i RGB-bilden
+Boundary_RGB(:,:,1) = Boundary_R; % Röd kanal för gränser
+Boundary_RGB(:,:,2) = Boundary_G; % Grön kanal för gränser
+Boundary_RGB(:,:,3) = Boundary_B; % Blå kanal för gränser
+
+% Visa den slutliga RGB-bilden med gränser
+figure;
+imshow(Boundary_RGB);
+title('Gränser för objekten i RGB-bilden');
+
+% Spara resultatet
+imwrite(Boundary_RGB, 'Boundary_RGB.tif');
+
 
 % Prep 13: 
 RiceImage1 = imread("rice-shaded.tif");
@@ -132,7 +144,7 @@ figure;
 imshow(RiceImage3)
 imwrite(RiceImage3, 'RiceImage3.tif');
 
-%% Labelling and objct features
+%% Labelling and object features
 
 % Prep 14:
 L = bwlabel(Image1c_clean);
@@ -159,30 +171,57 @@ end
 % imshow(Large0_Im);
 % imwrite(Large0_Im, 'Large0_Im.tif');
 
-% Prep 16: Not Done
+% Prep 16:
+% Filtrera objekt med omkrets mindre än det valda tröskelvärdet
+thresh2 = 100;
+SmallPerimeterObjects = find(Perimeter < thresh2);
+
+% Skapa en binärbild som endast innehåller dessa objekt
+SmallObjects_Im = zeros(r, c);
+for n = 1:length(SmallPerimeterObjects)
+    SmallObjects_Im(L == SmallPerimeterObjects(n)) = 1;
+end
+
+% Visualisera bilden med objekten
+figure;
+imshow(SmallObjects_Im);
+title('Objekt med liten omkrets');
+
+% Skriv ut etiketterna för objekten
+disp('Etiketter för objekt med liten omkrets:');
+disp(SmallPerimeterObjects);
+
+% (Valfritt) Spara bilden för dokumentation
+imwrite(SmallObjects_Im, 'SmallObjects_Im.tif');
+figure;
 hist(Perimeter);
 
-thresh = 150;
+thresh = 250;
 
-% Prep 17: Separera objekt med största omkrets och utan hål
-% Filtrera objekt med stor omkrets
+% Prep 17: Filtrera objekt med största omkrets och inga hål
+
+% 1. Välj objekt som har en omkrets större än det valda tröskelvärdet
+% och saknar hål (EulerNumber == 1)
 SelectedObjects = find(Perimeter > thresh & Euler == 1);
 
-% Skapa en ny bild för de utvalda objekten
+% 2. Skapa en ny binärbild som endast innehåller de valda objekten
 SelectedObjects_Im = zeros(r, c);
 for n = 1:length(SelectedObjects)
     SelectedObjects_Im(L == SelectedObjects(n)) = 1;
 end
 
-% Visa och spara resultatet
+% 3. Visualisera resultatet
 figure;
 imshow(SelectedObjects_Im);
+title('Objekt med största omkrets och utan hål');
+
+% 4. Spara resultatbilden om så behövs
 imwrite(SelectedObjects_Im, 'SelectedObjects_Im.tif');
 
-% Hämta etiketterna för de valda objekten
-Labels_Selected = SelectedObjects;
-disp('Etiketter för de valda objekten:');
-disp(Labels_Selected);
+% 5. Visa etiketter för de valda objekten i kommandofönstret
+disp('Etiketter för valda objekt:');
+disp(SelectedObjects);
+
 
 
 %% CountBrickRows Testing
